@@ -1,0 +1,268 @@
+<HTML>
+<BODY >
+<form name="frm_apod_viewer" target="_self" method="post">
+<div>
+<table border = "0">
+<tr><td colspan="2" align="left"><strong>Apod Controls</strong></td></tr>
+<tr><td>Transition Timer:</td><td>Every <input name="trans_time" size="5" type="text" value="5"> minutes</td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><input type="button" value="Start" onclick="set_win_open_params();"></td><td></td></tr>
+<tr><td><input name="cb_show_location" type="checkbox" >Show Location</td><td><input name="show_location" type="hidden" value="no"></td></tr>
+<tr><td><input name="cb_show_menu_bar" type="checkbox" >Menu Bar</td><td><input name="show_menu_bar" type="hidden" value="no"></td></tr>
+<tr><td><input name="cb_show_scroll_bar" type="checkbox" >Scroll Bars</td><td><input name="show_scroll_bar" type="hidden" value="no"></td></tr>
+<tr><td><input name="cb_show_status"  type="checkbox" >Status</td><td><input name="show_status" type="hidden" value="no"></td></tr>
+<tr><td><input name="cb_show_tool_bar" type="checkbox" >Tool Bar</td><td><input name="show_tool_bar" type="hidden" value="no"></td></tr>
+
+<tr><td><input name="rfb"value="random" type="radio" >Randomly choose pages to view</td><td><input name="rfb_state" type="hidden" value=""></td></tr>
+<tr><td><input name="rfb"value="forward" type="radio" >View chronologically forward</td><td></td></tr>
+<tr><td><input name="rfb"value="backward" type="radio" >View chronologically backward</td><td></td></tr>
+
+<tr><td>Pages viewed:</td><td><select name="pages"><option value="astropix.html">astropix.html</option></select><input type="button" value="Review page" onclick=" review_page();"></td></tr>
+</table>
+</div>
+</form>
+</BODY>
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+
+var l = location.search.substring(1);
+
+function set_win_open_params()
+{   var s='';
+  
+  if(document.frm_apod_viewer.trans_time.value < 1)
+    {alert('Timer should not be set less than 1 minute.');
+	 return;
+	}
+
+    if(win != null)
+	   win.close();
+    
+   if(document.frm_apod_viewer.cb_show_location.checked==true)
+     {document.frm_apod_viewer.show_location.value = 'yes';s+='?loc=yes';}
+   else
+     {document.frm_apod_viewer.show_location.value = 'no';  s+='?loc=no';}
+
+   if(document.frm_apod_viewer.cb_show_menu_bar.checked==true)
+     {document.frm_apod_viewer.show_menu_bar.value = 'yes';  s+='&mb=yes';}
+   else
+     {document.frm_apod_viewer.show_menu_bar.value = 'no';s+='&mb=no';}
+
+ if(document.frm_apod_viewer.cb_show_scroll_bar.checked==true)
+     {document.frm_apod_viewer.show_scroll_bar.value = 'yes';  s+='&sb=yes';}
+   else
+     {document.frm_apod_viewer.show_scroll_bar.value = 'no';s+='&sb=no';}
+
+  if(document.frm_apod_viewer.cb_show_status.checked==true)
+     {document.frm_apod_viewer.show_status.value = 'yes';  s+='&ss=yes';}
+   else
+     {document.frm_apod_viewer.show_status.value = 'no';s+='&ss=no';}
+
+ if(document.frm_apod_viewer.cb_show_tool_bar.checked==true)
+     {document.frm_apod_viewer.show_tool_bar.value = 'yes';  s+='&st=yes';}
+   else
+     {document.frm_apod_viewer.show_tool_bar.value = 'no';s+='&st=no';}
+
+ if(document.frm_apod_viewer.rfb[0].checked==true)
+     {document.frm_apod_viewer.rfb_state.value = '0';  s+='&rfb=0';}
+ if(document.frm_apod_viewer.rfb[1].checked==true)
+     {document.frm_apod_viewer.rfb_state.value = '1';  s+='&rfb=1';}
+ if(document.frm_apod_viewer.rfb[2].checked==true)
+     {document.frm_apod_viewer.rfb_state.value = '2';  s+='&rfb=2';}
+   
+
+   s+='&time='+document.frm_apod_viewer.trans_time.value;
+
+ window.location.href="apod_viewer.html"+s;
+}
+ 
+ 
+
+
+if(!l)
+{}
+else
+{
+ 
+ document.frm_apod_viewer.trans_time.value = location.search.substring(1).substr( location.search.substring(1).search(/time=/i)+5);
+  
+  if( location.search.substring(1).search(/loc=yes/i) != -1)
+      { document.frm_apod_viewer.show_location.value = 'yes';
+	    document.frm_apod_viewer.cb_show_location.checked = true;
+	  }
+   else
+      { document.frm_apod_viewer.show_location.value = 'no';
+	  }
+
+ if( location.search.substring(1).search(/mb=yes/i) != -1)
+      { document.frm_apod_viewer.show_menu_bar.value = 'yes';
+	    document.frm_apod_viewer.cb_show_menu_bar.checked = true;
+	  }
+   else
+      { document.frm_apod_viewer.show_menu_bar.value = 'no';
+	  }
+
+if( location.search.substring(1).search(/mb=yes/i) != -1)
+      { document.frm_apod_viewer.show_scroll_bar.value = 'yes';
+	    document.frm_apod_viewer.cb_show_scroll_bar.checked = true;
+	  }
+   else
+      { document.frm_apod_viewer.show_scroll_bar.value = 'no';
+	  }
+
+if( location.search.substring(1).search(/ss=yes/i) != -1)
+      { document.frm_apod_viewer.show_status.value = 'yes';
+	    document.frm_apod_viewer.cb_show_status.checked = true;
+	  }
+   else
+      { document.frm_apod_viewer.show_status.value = 'no';
+	  }
+
+if( location.search.substring(1).search(/st=yes/i) != -1)
+      { document.frm_apod_viewer.show_tool_bar.value = 'yes';
+	    document.frm_apod_viewer.cb_show_tool_bar.checked = true;
+	  }
+   else
+      { document.frm_apod_viewer.show_tool_bar.value = 'no';
+	  }
+
+if( location.search.substring(1).search(/rfb=0/i) != -1)
+      { document.frm_apod_viewer.rfb[0].checked = true;}
+if( location.search.substring(1).search(/rfb=1/i) != -1)
+      { document.frm_apod_viewer.rfb[1].checked = true;}
+if( location.search.substring(1).search(/rfb=2/i) != -1)
+      { document.frm_apod_viewer.rfb[2].checked = true;}
+
+
+}
+
+if(!l)
+{}
+else
+{ 
+var win = window.open("http://antwrp.gsfc.nasa.gov/apod/astropix.html","APOD","location="+document.frm_apod_viewer.show_location.value+",left=0,top=0,height="+screen.availHeight+",width="+screen.availWidth+",menubar="+document.frm_apod_viewer.show_menu_bar.value+",scrollbars="+document.frm_apod_viewer.show_scroll_bar.value+",status="+document.frm_apod_viewer.show_status.value+",toolbar="+document.frm_apod_viewer.show_tool_bar.value);
+
+function refresh_page(){
+if(win.closed)
+   { 
+    win = window.open("http://antwrp.gsfc.nasa.gov/apod/"+get_apod_page(),"APOD","location="+document.frm_apod_viewer.show_location.value+",left=0,top=0,scrollbars=yes,height="+screen.availHeight+",width="+screen.availWidth+",menubar="+document.frm_apod_viewer.show_menu_bar.value+",scrollbars="+document.frm_apod_viewer.show_scroll_bar.value+",status="+document.frm_apod_viewer.show_status.value+",toolbar="+document.frm_apod_viewer.show_tool_bar.value);
+   }
+  setTimeout("close_page()",60000* (document.frm_apod_viewer.trans_time.value-0));
+}
+function close_page(){
+  if(!win.closed)
+     win.close();
+
+  setTimeout("refresh_page()",500);
+  }
+
+var count=0;
+
+function get_apod_page(){
+var mid = (1000*60*60*24);// milliseconds in a day
+var d = new Date();
+var ds = new Date();
+ds = Date.parse('1995/06/20');
+var n = 0;
+var ymd = '';
+var rfb='r';
+
+ if(document.frm_apod_viewer.rfb[0].checked == true)
+    rfb = 'r';
+ if(document.frm_apod_viewer.rfb[1].checked == true)
+    rfb='f';
+ if(document.frm_apod_viewer.rfb[2].checked == true)
+    rfb='b';
+
+  n = (d.valueOf() - ds.valueOf());
+
+ switch(rfb)
+ {
+   case 'f':
+   
+   if(ds.valueOf()+(mid*count)>d.valueOf())
+      {count=0;}
+   else
+      {count++;}
+
+    n = (mid*count);
+   break;
+
+   case 'b':
+   if(d.valueOf()-(mid*count)<ds.valueOf())
+      {count=0;}
+   else
+      {count++;}
+
+    n = n-(mid*count);
+   break;
+
+   case 'r':
+     n = Math.floor(Math.random()*n);
+   break;
+
+   default:
+   break;
+ }
+  
+  n = ds.valueOf() + n;
+  
+var rd = new Date(n);
+
+
+var s = '';
+s = s + rd.getYear(); 
+s = s.substring(s.length - 2)
+
+if((rd.getMonth()+1) < 10)
+   s = s + '0'+(rd.getMonth()+1);
+else
+   s = s + (rd.getMonth()+1);
+
+if((rd.getDate()) < 10)
+  s = 'ap'+ s + '0' + (rd.getDate()) + '.html';
+else 
+  s = 'ap'+ s + (rd.getDate()) + '.html';
+
+add_to_select(s,s,'pages');
+
+return s;
+}
+refresh_page();
+
+var been_there = new Array();
+
+function add_to_select()
+{
+    var o = new Option();
+	      o.text = arguments[0];
+		  o.value = arguments[1];
+		document.frm_apod_viewer.pages.options[document.frm_apod_viewer.pages.options.length] = o;
+       
+	   for(var i=0,found=false;i<been_there.length;i++)
+	       {
+                if(been_there[i]==arguments[0])
+				   found=true;
+		   }
+      
+		if(found==true)
+		    {get_apod_page();}
+		else  
+		    {been_there[been_there.length]=arguments[0];}
+
+       if(been_there.length > (2*365))
+	     {been_there.length = 0;}
+}
+
+function review_page()
+{
+   var  win = window.open("http://antwrp.gsfc.nasa.gov/apod/"+document.frm_apod_viewer.pages.options[document.frm_apod_viewer.pages.selectedIndex].value,"APOD","location="+document.frm_apod_viewer.show_location.value+",left=0,top=0,scrollbars=yes,height="+screen.availHeight+",width="+screen.availWidth+",menubar="+document.frm_apod_viewer.show_menu_bar.value+",scrollbars="+document.frm_apod_viewer.show_scroll_bar.value+",status="+document.frm_apod_viewer.show_status.value+",toolbar="+document.frm_apod_viewer.show_tool_bar.value);
+
+}
+
+}
+//-->
+</SCRIPT>
+<center><h4><a href="index.html">Index</a></h4></center>
+<!--<BODY onLoad="refresh_page()"></BODY>-->
+</HTML>
